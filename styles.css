@@ -28,7 +28,7 @@ p, h1, h2, h3, h4, h5, h6 {
 /************************************************************/
 /* Custom properties */
 :root {
-  --yellow: #fbbf24;
+  --blue: #0284c7;
   --grey: #e2e8f0;
   --red: #e63946;
 }
@@ -55,20 +55,19 @@ body {
   padding: 24px;
   
   display: flex;
-  align-items: center;
   justify-content: space-around;
 }
 
 h1 {
-  color: var(--yellow);
+  color: var(--blue);
 }
 
 .add-btn,
 .remove-btn {
-  background-color: var(--yellow);
+  background-color: var(--blue);
   color: white;
   
-  padding: 8px 24px;
+  padding: 0px 24px;
 
   border: none;
   border-radius: 100px;
@@ -77,7 +76,7 @@ h1 {
 /************************************************************/
 /* Books Section */
 .books {
-  padding: 36px 24px;
+  padding: 36px;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -95,7 +94,7 @@ h1 {
   gap: 12px;
 
   border-radius: 8px;
-  border-left: 8px solid var(--yellow);
+  border-left: 8px solid var(--blue);
   
   box-shadow: 3px 3px 3px lightgray;
 }
@@ -105,4 +104,3 @@ h1 {
 
   padding: 4px;
 }
-
