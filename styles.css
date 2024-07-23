@@ -1,0 +1,108 @@
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+  display: block;
+}
+input, button, textarea, select {
+  font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+#root, #__next {
+  isolation: isolate;
+}
+
+/************************************************************/
+/* Custom properties */
+:root {
+  --yellow: #fbbf24;
+  --grey: #e2e8f0;
+  --red: #e63946;
+}
+
+/************************************************************/
+/* General Styles */
+body {
+  font-family: tahoma, sans-serif;
+  background-color: var(--grey);
+}
+
+/* Bold font */
+.add-btn,
+.remove-btn,
+.title {
+  font-weight: 800;
+}
+
+/************************************************************/
+/* Header Section */
+.header {
+  background-color: white;
+
+  padding: 24px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+h1 {
+  color: var(--yellow);
+}
+
+.add-btn,
+.remove-btn {
+  background-color: var(--yellow);
+  color: white;
+  
+  padding: 8px 24px;
+
+  border: none;
+  border-radius: 100px;
+}
+
+/************************************************************/
+/* Books Section */
+.books {
+  padding: 36px 24px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 24px;
+}
+
+.book {
+  background-color: white;
+  
+  padding: 24px;
+
+  display: grid;
+  align-content: space-between;
+  gap: 12px;
+
+  border-radius: 8px;
+  border-left: 8px solid var(--yellow);
+  
+  box-shadow: 3px 3px 3px lightgray;
+}
+
+.remove-btn {
+  background-color: var(--red);
+
+  padding: 4px;
+}
+
