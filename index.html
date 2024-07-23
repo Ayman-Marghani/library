@@ -16,5 +16,29 @@
   <div class="books">
   </div>
 
+  <dialog>
+    <button type="button" class="close-btn" autofocus>×</button>
+
+    <form action="">
+      <div class="form-input-div">
+        <label for="title">Book Title: </label>
+        <input type="text" id="title" name="title" required>
+      </div>
+      <div class="form-input-div">
+        <label for="author">Author: </label>
+        <input type="text" id="author" name="author" required>
+      </div>
+      <div class="form-input-div">
+        <label for="no-of-pages">Number of Pages: </label>
+        <input type="number" id="no-of-pages" name="no-of-pages" required>
+      </div>
+      <div>
+        <label for="read">Read: </label>
+        <input type="checkbox" id="read" name="read">
+      </div>
+      <button type="submit" class="confirm-btn">Confirm</button>
+    </form>
+  </dialog>
+
 </body>
 </html>

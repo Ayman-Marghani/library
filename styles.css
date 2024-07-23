@@ -40,17 +40,19 @@ body {
   background-color: var(--grey);
 }
 
-/* Bold font */
-.add-btn,
-.remove-btn,
-.title {
+/* Buttons */
+button {
   font-weight: 800;
+  background-color: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
 }
 
 /************************************************************/
 /* Header Section */
 .header {
-  background-color: white;
+  background-color: #fff;
 
   padding: 24px;
   
@@ -62,15 +64,8 @@ h1 {
   color: var(--blue);
 }
 
-.add-btn,
-.remove-btn {
-  background-color: var(--blue);
-  color: white;
-  
+.add-btn {  
   padding: 0px 24px;
-
-  border: none;
-  border-radius: 100px;
 }
 
 /************************************************************/
@@ -85,7 +80,7 @@ h1 {
 }
 
 .book {
-  background-color: white;
+  background-color: #fff;
   
   padding: 24px;
 
@@ -99,8 +94,49 @@ h1 {
   box-shadow: 3px 3px 3px lightgray;
 }
 
+.title {
+  font-weight: 800;
+}
+
 .remove-btn {
   background-color: var(--red);
 
   padding: 4px;
+}
+
+/************************************************************/
+/* Dialog and form section */
+
+dialog {
+  margin: auto;
+  border-radius: 4px;
+  border: none;
+
+  position: relative;
+}
+
+.close-btn {
+  background-color: #fff;
+  color: #000;
+
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+}
+
+.form-input-div input,
+.confirm-btn {
+  width: 100%;
+  padding: 4px;
+
+  border-radius: 4px;
+}
+
+.form-input-div input {
+  border: 1px solid var(--grey);
 }

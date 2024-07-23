@@ -71,9 +71,21 @@ myLibrary.push(book1);
 myLibrary.push(book2);
 
 const booksDiv = document.querySelector(".books");
-
+const addBookBtn = document.querySelector(".add-btn");
+const dialog = document.querySelector("dialog");
+const closeBtn = document.querySelector(".close-btn");
 
 
 displayBooks();
+
+// Event Listeners
+addBookBtn.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+closeBtn.addEventListener("click", () => {
+  dialog.close();
+});
+
 
 
