@@ -9,31 +9,35 @@ function Book(title, author, pages, isRead) {
   };
 }
 
-function displayBookCard(book) {
+function displayBookCard(book, idx) {
   // Create book div
   const bookCard = document.createElement("div");
   bookCard.classList.add("book");
+  bookCard.setAttribute("index", idx);
+
   // Title
   const bookTitle = document.createElement("div");
   bookTitle.classList.add("title");
   bookTitle.textContent = "Title: " + book.title;
   bookCard.appendChild(bookTitle);
+
   // Author
   const bookAuthor = document.createElement("div");
   bookAuthor.classList.add("author");
   bookAuthor.textContent = "Author: " + book.author;
   bookCard.appendChild(bookAuthor);
+
   // Pages
   const bookPages = document.createElement("div");
   bookPages.classList.add("pages");
   bookPages.textContent = "Number of Pages: " + book.pages;
   bookCard.appendChild(bookPages);
+
   // Read Div
   const bookReadDiv = document.createElement("div");
   bookReadDiv.classList.add("read-div");
   // Read label
   const bookReadLabel = document.createElement("label");
-  bookReadLabel.setAttribute("for", "read");
   bookReadLabel.textContent = "Read: ";
   bookReadDiv.appendChild(bookReadLabel);
   // Read checkbox
@@ -44,28 +48,50 @@ function displayBookCard(book) {
   bookReadCheckbox.checked = book.isRead;
   bookCard.style.borderLeftColor = book.isRead ? "green" : "#0284c7";
   bookReadDiv.appendChild(bookReadCheckbox);
-
   bookCard.appendChild(bookReadDiv);
+
+  // Read checkbox event
+  bookReadCheckbox.addEventListener("click", () => {
+    const currentBook = bookReadCheckbox.parentNode.parentNode;
+    const currentBookIdx = currentBook.getAttribute("index");
+    myLibrary[currentBookIdx].isRead = bookReadCheckbox.checked;
+    currentBook.style.borderLeftColor = bookReadCheckbox.checked ? "green" : "#0284c7";
+  });
+
   // Remove button
   const bookRemoveBtn = document.createElement("button");
   bookRemoveBtn.classList.add("remove-btn");
   bookRemoveBtn.setAttribute("type", "button");
   bookRemoveBtn.textContent = "Remove Book";
   bookCard.appendChild(bookRemoveBtn);
+
   // Append book div to books section
   booksDiv.appendChild(bookCard);
+  
+  // Remove book event
+  bookRemoveBtn.addEventListener("click", () => {
+    const currentBook = bookRemoveBtn.parentNode;
+    // remove the book from myLibrary array
+    const currentBookIdx = currentBook.getAttribute("index");
+    myLibrary.splice(currentBookIdx, 1);
+    // remove the bookCard's child elements
+    while (currentBook.firstChild) {
+      currentBook.removeChild(currentBook.lastChild);
+    }
+    // remove the bookCard itself
+    currentBook.remove();
+  });
 }
 
-function displayBooks() {
-  // booksDiv.innerHtml = ""; // search for another way
-
-  for (let book of myLibrary) {
-    displayBookCard(book);
+function displayAllBooks() {
+  // Remove all children elements of books div
+  while (booksDiv.firstChild) {
+    booksDiv.removeChild(booksDiv.lastChild);
   }
-}
 
-function addBookToLibrary(book) {
-  myLibrary.push(book);
+  for (var i = 0; i < myLibrary.length; i++) {
+    displayBookCard(myLibrary[i], i);
+  }
 }
 
 // Variables
@@ -85,38 +111,35 @@ const pagesInput = document.querySelector("#no-of-pages");
 const readInput = document.querySelector("#read");
 
 // Display all books
-displayBooks();
+displayAllBooks();
 
 // Event Listeners
+// Add a new book event
 addBookBtn.addEventListener("click", () => {
   dialog.showModal();
 });
-
+// submit book form event
 confirmBtn.addEventListener("click", (event) => {
   if (form.checkValidity()) {
     event.preventDefault();
     // create a new book object
-    var newBook = new Book(
+    const newBook = new Book(
       titleInput.value, 
       authorInput.value, 
       pagesInput.value, 
       readInput.checked
     );
+    // Add the book to MyLibrary array and display it
+    myLibrary.push(newBook);
+    displayAllBooks();
+    
     // clear form data
     form.reset();
-    // Add the book to MyLibrary array and display it
-    addBookToLibrary(newBook);
-    displayBookCard(newBook);
-
     dialog.close();
   }
 });
-
+// Close form event
 closeBtn.addEventListener("click", () => {
   form.reset();
   dialog.close();
 });
-
-// Remove button for each book
-// Read button for each book
-
