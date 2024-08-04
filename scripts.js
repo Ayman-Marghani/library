@@ -1,145 +1,173 @@
-// Functions
-function Book(title, author, pages, isRead) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = isRead;
-  this.info = function() {
-    return `${title} by ${author}, ${pages} pages, ` + (isRead ? "read" : "not read yet");
-  };
-}
-
-function displayBookCard(book, idx) {
-  // Create book div
-  const bookCard = document.createElement("div");
-  bookCard.classList.add("book");
-  bookCard.setAttribute("index", idx);
-
-  // Title
-  const bookTitle = document.createElement("div");
-  bookTitle.classList.add("title");
-  bookTitle.textContent = "Title: " + book.title;
-  bookCard.appendChild(bookTitle);
-
-  // Author
-  const bookAuthor = document.createElement("div");
-  bookAuthor.classList.add("author");
-  bookAuthor.textContent = "Author: " + book.author;
-  bookCard.appendChild(bookAuthor);
-
-  // Pages
-  const bookPages = document.createElement("div");
-  bookPages.classList.add("pages");
-  bookPages.textContent = "Number of Pages: " + book.pages;
-  bookCard.appendChild(bookPages);
-
-  // Read Div
-  const bookReadDiv = document.createElement("div");
-  bookReadDiv.classList.add("read-div");
-  // Read label
-  const bookReadLabel = document.createElement("label");
-  bookReadLabel.textContent = "Read: ";
-  bookReadDiv.appendChild(bookReadLabel);
-  // Read checkbox
-  const bookReadCheckbox = document.createElement("input");
-  bookReadCheckbox.setAttribute("type", "checkbox");
-  bookReadCheckbox.setAttribute("id", "read");
-  bookReadCheckbox.setAttribute("name", "read");
-  bookReadCheckbox.checked = book.isRead;
-  bookCard.style.borderLeftColor = book.isRead ? "green" : "#0284c7";
-  bookReadDiv.appendChild(bookReadCheckbox);
-  bookCard.appendChild(bookReadDiv);
-
-  // Read checkbox event
-  bookReadCheckbox.addEventListener("click", () => {
-    const currentBook = bookReadCheckbox.parentNode.parentNode;
-    const currentBookIdx = currentBook.getAttribute("index");
-    myLibrary[currentBookIdx].isRead = bookReadCheckbox.checked;
-    currentBook.style.borderLeftColor = bookReadCheckbox.checked ? "green" : "#0284c7";
-  });
-
-  // Remove button
-  const bookRemoveBtn = document.createElement("button");
-  bookRemoveBtn.classList.add("remove-btn");
-  bookRemoveBtn.setAttribute("type", "button");
-  bookRemoveBtn.textContent = "Remove Book";
-  bookCard.appendChild(bookRemoveBtn);
-
-  // Append book div to books section
-  booksDiv.appendChild(bookCard);
-  
-  // Remove book event
-  bookRemoveBtn.addEventListener("click", () => {
-    const currentBook = bookRemoveBtn.parentNode;
-    // remove the book from myLibrary array
-    const currentBookIdx = currentBook.getAttribute("index");
-    myLibrary.splice(currentBookIdx, 1);
-    // remove the bookCard's child elements
-    while (currentBook.firstChild) {
-      currentBook.removeChild(currentBook.lastChild);
-    }
-    // remove the bookCard itself
-    currentBook.remove();
-  });
-}
-
-function displayAllBooks() {
-  // Remove all children elements of books div
-  while (booksDiv.firstChild) {
-    booksDiv.removeChild(booksDiv.lastChild);
-  }
-
-  for (var i = 0; i < myLibrary.length; i++) {
-    displayBookCard(myLibrary[i], i);
+// Classes
+class Book {
+  constructor (title, author, pages, isRead) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.isRead = isRead;
   }
 }
 
-// Variables
-const myLibrary = [];
+class Library {
+  constructor () {
+    this.libraryArr = [];
+  }
 
-const booksDiv = document.querySelector(".books");
-const addBookBtn = document.querySelector(".add-btn");
+  get length() {
+    return this.libraryArr.length;
+  }
 
-const dialog = document.querySelector("dialog");
-const form = document.querySelector("form");
-const closeBtn = document.querySelector(".close-btn");
-const confirmBtn = document.querySelector(".confirm-btn");
+  addBookToLibrary(book) {
+    this.libraryArr.push(book);
+  }
 
-const titleInput = document.querySelector("#title");
-const authorInput = document.querySelector("#author");
-const pagesInput = document.querySelector("#no-of-pages");
-const readInput = document.querySelector("#read");
+  getBookByIdx(idx) {
+    return this.libraryArr[idx];
+  }
 
-// Display all books
-displayAllBooks();
+  removeBook(idx) {
+    this.libraryArr.splice(idx, 1);
+  }
+}
 
-// Event Listeners
-// Add a new book event
-addBookBtn.addEventListener("click", () => {
-  dialog.showModal();
-});
-// submit book form event
-confirmBtn.addEventListener("click", (event) => {
-  if (form.checkValidity()) {
-    event.preventDefault();
-    // create a new book object
-    const newBook = new Book(
-      titleInput.value, 
-      authorInput.value, 
-      pagesInput.value, 
-      readInput.checked
-    );
-    // Add the book to MyLibrary array and display it
-    myLibrary.push(newBook);
-    displayAllBooks();
+class DisplayController {
+  constructor(library) {
+    this.myLibrary = library;
     
-    // clear form data
-    form.reset();
-    dialog.close();
+    this.booksDiv = document.querySelector(".books");
+    this.addBookBtn = document.querySelector(".add-btn");
+    
+    this.dialog = document.querySelector("dialog");
+    this.form = document.querySelector("form");
+    this.closeBtn = document.querySelector(".close-btn");
+    this.confirmBtn = document.querySelector(".confirm-btn");
+    
+    this.titleInput = document.querySelector("#title");
+    this.authorInput = document.querySelector("#author");
+    this.pagesInput = document.querySelector("#no-of-pages");
+    this.readInput = document.querySelector("#read");
   }
-});
-// Close form event
-closeBtn.addEventListener("click", () => {
-  form.reset();
-  dialog.close();
-});
+  
+    displayBookCard(book, idx) {
+    // Create a book card
+    const bookCard = document.createElement("div");
+    bookCard.classList.add("book");
+    bookCard.setAttribute("index", idx);
+    
+    // Title
+    const bookTitle = document.createElement("div");
+    bookTitle.classList.add("title");
+    bookTitle.textContent = "Title: " + book.title;
+    bookCard.appendChild(bookTitle);
+    
+    // Author
+    const bookAuthor = document.createElement("div");
+    bookAuthor.classList.add("author");
+    bookAuthor.textContent = "Author: " + book.author;
+    bookCard.appendChild(bookAuthor);
+    
+    // Number of pages
+    const bookPages = document.createElement("div");
+    bookPages.classList.add("pages");
+    bookPages.textContent = "Number of Pages: " + book.pages;
+    bookCard.appendChild(bookPages);
+    
+    // Read Div
+    const bookReadDiv = document.createElement("div");
+    bookReadDiv.classList.add("read-div");
+    // Read label
+    const bookReadLabel = document.createElement("label");
+    bookReadLabel.textContent = "Read: ";
+    bookReadDiv.appendChild(bookReadLabel);
+    // Read checkbox
+    const bookReadCheckbox = document.createElement("input");
+    bookReadCheckbox.setAttribute("type", "checkbox");
+    bookReadCheckbox.setAttribute("id", "read");
+    bookReadCheckbox.setAttribute("name", "read");
+    bookReadCheckbox.checked = book.isRead;
+    bookCard.style.borderLeftColor = book.isRead ? "green" : "#0284c7";
+    bookReadDiv.appendChild(bookReadCheckbox);
+    bookCard.appendChild(bookReadDiv);
+    
+    // Read checkbox event listener
+    bookReadCheckbox.addEventListener("click", () => {
+      const currentBook = bookReadCheckbox.parentNode.parentNode;
+      const currentBookIdx = currentBook.getAttribute("index");
+      this.myLibrary.getBookByIdx(currentBookIdx).isRead = bookReadCheckbox.checked;
+      currentBook.style.borderLeftColor = bookReadCheckbox.checked ? "green" : "#0284c7";
+    });
+    
+    // Remove button
+    const bookRemoveBtn = document.createElement("button");
+    bookRemoveBtn.classList.add("remove-btn");
+    bookRemoveBtn.setAttribute("type", "button");
+    bookRemoveBtn.textContent = "Remove Book";
+    bookCard.appendChild(bookRemoveBtn);
+    
+    // Append the book card to books div
+    this.booksDiv.appendChild(bookCard);
+    
+    // Remove book event listener
+    bookRemoveBtn.addEventListener("click", () => {
+      const currentBook = bookRemoveBtn.parentNode;
+      // remove the book from myLibrary array
+      const currentBookIdx = currentBook.getAttribute("index");
+      this.myLibrary.removeBook(currentBookIdx);
+      // remove the bookCard's child elements
+      while (currentBook.firstChild) {
+        currentBook.removeChild(currentBook.lastChild);
+      }
+      // remove the bookCard itself
+      currentBook.remove();
+    });
+  }
+  
+  displayAllBooks() {
+    // Remove all children elements of books div
+    while (this.booksDiv.firstChild) {
+      this.booksDiv.removeChild(this.booksDiv.lastChild);
+    }
+    
+    for (let i = 0; i < this.myLibrary.length; i++) {
+      this.displayBookCard(this.myLibrary.getBookByIdx(i), i);
+    }
+  }
+
+  initEventListeners() {
+    // Add a new book event
+    this.addBookBtn.addEventListener("click", () => {
+      this.dialog.showModal();
+    });
+    // Submit book form event
+    this.confirmBtn.addEventListener("click", (event) => {
+      if (this.form.checkValidity()) {
+        event.preventDefault();
+        // create a new book object
+        const newBook = new Book(
+          this.titleInput.value, 
+          this.authorInput.value, 
+          this.pagesInput.value, 
+          this.readInput.checked
+        );
+        // Add the book to MyLibrary array and display it
+        this.myLibrary.addBookToLibrary(newBook);
+        this.displayAllBooks();
+        
+        // clear form data
+        this.form.reset();
+        this.dialog.close();
+      }
+    });
+    // Close form event
+    this.closeBtn.addEventListener("click", () => {
+      this.form.reset();
+      this.dialog.close();
+    });
+  }
+}
+
+// Main code
+const library = new Library();
+const displayController = new DisplayController(library);
+displayController.initEventListeners();
+displayController.displayAllBooks();
